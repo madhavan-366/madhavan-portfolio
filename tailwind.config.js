@@ -8,35 +8,47 @@ export default {
   theme: {
     extend: {
       colors: {
-        dark: {
-          bg: '#050816',
-          card: '#111827',
-          border: '#1f2937',
-        }
+        espresso: {
+          bg: '#1B1714',
+          alt: '#211B17',
+          footer: '#15120F',
+          card: '#30251F',
+          elevated: '#40332A',
+          border: 'rgba(243, 235, 221, 0.12)',
+        },
+        cream: {
+          DEFAULT: '#F3EBDD',
+          soft: '#FAF5EC',
+          secondary: '#C8BBA9',
+          muted: '#A39584',
+        },
+        caramel: {
+          DEFAULT: '#C49A6C',
+          hover: '#D4AD83',
+          deep: '#8F6339',
+        },
       },
       fontFamily: {
-        inter: ['Inter', 'sans-serif'],
-        poppins: ['Poppins', 'sans-serif'],
+        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        heading: ['Poppins', 'Inter', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+      },
+      boxShadow: {
+        'warm-sm': '0 4px 14px -4px rgba(10, 7, 5, 0.45)',
+        'warm': '0 10px 30px -10px rgba(10, 7, 5, 0.6)',
+        'warm-lg': '0 18px 40px -12px rgba(10, 7, 5, 0.72)',
+        'card-dark': '0 10px 30px -10px rgba(10, 7, 5, 0.55), 0 0 0 1px rgba(243, 235, 221, 0.12)',
+        'card-light': '0 10px 30px -10px rgba(48, 37, 31, 0.08), 0 0 0 1px rgba(48, 37, 31, 0.1)',
       },
       animation: {
         'float': 'float 6s ease-in-out infinite',
-        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'spin-slow': 'spin 20s linear infinite',
-        'gradient': 'gradient 8s ease infinite',
       },
       keyframes: {
         float: {
           '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-20px)' },
+          '50%': { transform: 'translateY(-10px)' },
         },
-        gradient: {
-          '0%, 100%': { backgroundPosition: '0% 50%' },
-          '50%': { backgroundPosition: '100% 50%' },
-        }
       },
-      backgroundSize: {
-        '300%': '300%',
-      }
     },
   },
   plugins: [],

@@ -1,189 +1,220 @@
 import { motion } from 'framer-motion';
 import { TypeAnimation } from 'react-type-animation';
-import { FiGithub, FiLinkedin, FiMail, FiArrowDown } from 'react-icons/fi';
+import { FiGithub, FiLinkedin, FiMail, FiArrowDown, FiMapPin } from 'react-icons/fi';
 import { HiDownload } from 'react-icons/hi';
 import { personalInfo } from '../../data';
-import { fadeInRight, staggerContainer, staggerItem } from '../../utils/animations';
-import MagneticButton from '../ui/MagneticButton';
+import { staggerContainer, staggerItem, fadeInRight } from '../../utils/animations';
 
 export default function Hero() {
-  const scrollToProjects = () => {
-    document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+  const scrollTo = (id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const typeSequence = personalInfo.typingStrings.flatMap(s => [s, 2000]);
+  const typeSequence = personalInfo.typingStrings.flatMap((s) => [s, 2200]);
 
   const socials = [
-    { href: personalInfo.github, icon: FiGithub, external: true, label: 'GitHub' },
-    { href: personalInfo.linkedin, icon: FiLinkedin, external: true, label: 'LinkedIn' },
-    { href: `mailto:${personalInfo.email}`, icon: FiMail, external: false, label: 'Email' },
+    { href: personalInfo.github, icon: FiGithub, label: 'GitHub', external: true },
+    { href: personalInfo.linkedin, icon: FiLinkedin, label: 'LinkedIn', external: true },
+    { href: `mailto:${personalInfo.email}`, icon: FiMail, label: 'Email', external: false },
   ];
 
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center overflow-hidden"
+      className="relative min-h-[92vh] flex items-center pt-24 pb-16 overflow-hidden bg-grid-subtle"
     >
-      {/* Background elements */}
-      <div className="absolute inset-0 bg-grid opacity-30" />
-      <div className="absolute top-1/4 right-1/4 w-72 h-72 bg-indigo-600/15 rounded-full blur-3xl animate-pulse-slow" />
-      <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '2s' }} />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-600/5 rounded-full blur-3xl" />
+      {/* Subtle warm ambient illumination */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[560px] h-[360px] bg-[#C49A6C]/[0.06] rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/3 right-10 w-[320px] h-[320px] bg-[#40332A]/25 rounded-full blur-[110px] pointer-events-none" />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 py-24 w-full">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left Column */}
+      <div className="section-container relative z-10 w-full">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          
+          {/* Left Hero Column */}
           <motion.div
             variants={staggerContainer}
             initial="hidden"
             animate="visible"
-            className="space-y-6"
+            className="lg:col-span-7 space-y-6 text-left"
           >
+            {/* Status Pill */}
             <motion.div variants={staggerItem}>
-              <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-widest uppercase text-indigo-500 dark:text-indigo-400 px-3 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/10">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                Open to Opportunities
+              <span className="badge-subtle">
+                <span className="w-2 h-2 rounded-full bg-[var(--accent)]" />
+                {personalInfo.availability}
               </span>
             </motion.div>
 
-            <motion.h1
-              variants={staggerItem}
-              className="font-poppins font-black leading-none"
-            >
-              <span className="block text-5xl sm:text-6xl xl:text-7xl text-slate-900 dark:text-white">
-                Madhavan
-              </span>
-              <span className="block text-5xl sm:text-6xl xl:text-7xl gradient-text">
-                K M
-              </span>
-            </motion.h1>
-
-            <motion.div variants={staggerItem} className="flex items-center gap-3">
-              <span className="text-slate-600 dark:text-slate-400 text-lg font-medium">
-                {personalInfo.title}
-              </span>
+            {/* Name & Headline */}
+            <motion.div variants={staggerItem} className="space-y-2">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] text-[var(--text-primary)]">
+                Hi, I&apos;m{' '}
+                <span className="block text-gradient-primary whitespace-nowrap">
+                  {personalInfo.name}
+                </span>
+              </h1>
+              <p className="text-xl sm:text-2xl font-semibold text-[var(--text-secondary)]">
+                {personalInfo.headline}
+              </p>
             </motion.div>
 
-            <motion.div variants={staggerItem} className="h-8">
-              <span className="text-indigo-500 dark:text-indigo-400 font-mono text-base">
+            {/* Dynamic Typewriter Sequence */}
+            <motion.div variants={staggerItem} className="min-h-[28px] flex items-center">
+              <span className="font-mono text-sm sm:text-base text-[var(--accent)] font-medium bg-[var(--accent-tint)] px-3 py-1 rounded-md border border-[var(--accent-border)]">
                 &gt;{' '}
                 <TypeAnimation
                   sequence={typeSequence}
                   repeat={Infinity}
-                  speed={60}
-                  deletionSpeed={80}
+                  speed={55}
+                  deletionSpeed={75}
                 />
               </span>
             </motion.div>
 
+            {/* Professional Summary */}
             <motion.p
               variants={staggerItem}
-              className="text-slate-600 dark:text-slate-400 text-base leading-relaxed max-w-md"
+              className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed max-w-2xl font-normal"
             >
-              {personalInfo.bio}
+              {personalInfo.summary}
             </motion.p>
 
-            <motion.div variants={staggerItem} className="flex flex-wrap gap-3 pt-2">
-              <MagneticButton onClick={scrollToProjects} className="btn-primary">
-                Explore Projects
+            {/* Primary Action Buttons */}
+            <motion.div variants={staggerItem} className="flex flex-wrap items-center gap-3 pt-2">
+              <button
+                onClick={() => scrollTo('projects')}
+                className="btn-primary"
+              >
+                <span>View Projects</span>
                 <FiArrowDown className="w-4 h-4" />
-              </MagneticButton>
-              <MagneticButton as="a" href="/resume.pdf" download="Madhavan_K_M_Resume.pdf" className="btn-secondary">
-                <HiDownload className="w-4 h-4" />
-                Download Resume
-              </MagneticButton>
+              </button>
+
+              <a
+                href="/resume.pdf"
+                download="Madhavan_K_M_Resume.pdf"
+                className="btn-secondary"
+              >
+                <HiDownload className="w-4 h-4 text-[var(--accent)]" />
+                <span>Download Resume</span>
+              </a>
+
+              <button
+                onClick={() => scrollTo('contact')}
+                className="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors"
+              >
+                Get In Touch →
+              </button>
             </motion.div>
 
-            <motion.div variants={staggerItem} className="flex items-center gap-4 pt-2">
-              {socials.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target={s.external ? '_blank' : undefined}
-                  rel={s.external ? 'noopener noreferrer' : undefined}
-                  aria-label={s.label}
-                  className="text-slate-500 dark:text-slate-500 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors p-2 rounded-lg hover:bg-indigo-500/10"
-                >
-                  <s.icon className="w-5 h-5" />
-                </a>
+            {/* Quick Stats Grid */}
+            <motion.div
+              variants={staggerItem}
+              className="pt-6 border-t border-[var(--border-subtle)] grid grid-cols-2 sm:grid-cols-4 gap-4"
+            >
+              {personalInfo.stats.map((stat, i) => (
+                <div key={i} className="space-y-0.5">
+                  <div className="text-xl sm:text-2xl font-black text-[var(--text-primary)] font-heading">
+                    {stat.value}
+                  </div>
+                  <div className="text-xs font-semibold text-[var(--accent)]">
+                    {stat.label}
+                  </div>
+                  <div className="text-[11px] text-[var(--text-muted)] truncate">
+                    {stat.detail}
+                  </div>
+                </div>
               ))}
-              <div className="w-px h-5 bg-black/10 dark:bg-white/10" />
-              <span className="text-sm font-medium text-indigo-500 dark:text-indigo-400 tracking-wide">
-                Chennai, Tamil Nadu, India
+            </motion.div>
+
+            {/* Social Links & Location */}
+            <motion.div variants={staggerItem} className="flex items-center gap-4 pt-2">
+              <div className="flex items-center gap-2">
+                {socials.map((s) => (
+                  <a
+                    key={s.label}
+                    href={s.href}
+                    target={s.external ? '_blank' : undefined}
+                    rel={s.external ? 'noopener noreferrer' : undefined}
+                    aria-label={s.label}
+                    className="p-2.5 rounded-xl card-surface text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors"
+                  >
+                    <s.icon className="w-4 h-4" />
+                  </a>
+                ))}
+              </div>
+
+              <div className="w-px h-5 bg-[var(--border-subtle)]" />
+
+              <span className="inline-flex items-center gap-1.5 text-xs text-[var(--text-muted)] font-medium">
+                <FiMapPin className="w-3.5 h-3.5 text-[var(--accent)]" />
+                {personalInfo.location}
               </span>
             </motion.div>
+
           </motion.div>
 
-          {/* Right Column — Profile visual */}
+          {/* Right Column: Sleek Profile Card */}
           <motion.div
             variants={fadeInRight}
             initial="hidden"
             animate="visible"
-            className="flex justify-center lg:justify-end"
+            className="lg:col-span-5 flex justify-center lg:justify-end"
           >
-            <div className="relative">
-              {/* Orbital rings */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="w-[320px] h-[320px] rounded-full border border-indigo-500/20 absolute" />
-                <div className="w-[380px] h-[380px] rounded-full border border-purple-500/10 absolute" />
-                <div className="w-[440px] h-[440px] rounded-full border border-cyan-500/5 absolute" />
-              </div>
+            <div className="relative w-full max-w-sm">
+              {/* Subtle warm card depth */}
+              <div className="absolute inset-0 bg-[#40332A]/30 rounded-3xl blur-2xl -z-10 transform scale-95" />
 
-              {/* Profile image container */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.3, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                whileHover={{ scale: 1.02 }}
-                className="relative w-64 h-64 sm:w-72 sm:h-72"
-              >
-                {/* Glow behind avatar */}
-                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full blur-2xl opacity-30 scale-110" />
+              {/* Main Profile Showcase Card */}
+              <div className="card-surface rounded-3xl p-6 sm:p-7 relative overflow-hidden border border-[var(--border-subtle)] shadow-warm-lg">
+                
+                {/* Header tag */}
+                <div className="flex items-center gap-2 mb-5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent)]" />
+                  <span className="text-xs font-mono font-medium text-[var(--text-muted)] uppercase tracking-wider">
+                    Student Engineer
+                  </span>
+                </div>
 
-                {/* Avatar */}
-                <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-indigo-500/30 shadow-2xl shadow-indigo-500/20 bg-gradient-to-br from-[#111827] to-[#1e1b4b] flex items-center justify-center">
+                {/* Profile Image Frame */}
+                <div className="relative aspect-square w-full rounded-2xl overflow-hidden mb-5 bg-[#1B1714] border border-[var(--border-subtle)] shadow-inner group">
                   <img
                     src="/profile.jpeg"
-                    alt="Madhavan K M — AI/ML Engineer and Data Analyst"
-                    className="w-full h-full object-cover"
+                    alt="Madhavan K M — AI/ML Engineer and Software Developer"
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                     loading="eager"
-                    fetchPriority="high"
-                    decoding="async"
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                      e.target.nextSibling.style.display = 'flex';
-                    }}
                   />
-                  {/* Fallback */}
-                  <div className="hidden w-full h-full flex-col items-center justify-center gap-3 text-center px-4">
-                    <div className="text-6xl font-black gradient-text font-poppins">MK</div>
-                    <p className="text-xs text-slate-500 font-mono">Add profile.jpeg to /public</p>
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#1B1714]/85 via-transparent to-transparent opacity-70" />
+                  
+                  <div className="absolute bottom-3 left-3 right-3 flex items-center text-[#F3EBDD] text-xs">
+                    <span className="font-semibold bg-[#1B1714]/80 backdrop-blur-md px-2.5 py-1 rounded-md border border-[#F3EBDD]/15">
+                      Madhavan K M
+                    </span>
                   </div>
                 </div>
 
-                {/* Decorative dots */}
-                <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-gradient-to-br from-indigo-500 to-cyan-500 rounded-full shadow-lg shadow-indigo-500/50" />
-                <div className="absolute -top-2 -left-2 w-4 h-4 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full shadow-lg" />
-              </motion.div>
+                {/* Tech Pills Footer */}
+                <div className="space-y-3">
+                  <div className="text-xs font-semibold text-[var(--text-muted)] tracking-wider uppercase">
+                    Core Specializations
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {["Applied AI & ML", "React.js", "Python", "FastAPI", "Node.js", "Power BI", "SQL"].map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-[11px] px-2.5 py-1 rounded-lg bg-[var(--bg-elevated)]/45 border border-[var(--border-subtle)] text-[var(--text-secondary)] font-medium"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+
             </div>
           </motion.div>
-        </div>
 
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        >
-          <span className="text-xs text-slate-500 dark:text-slate-600 tracking-widest uppercase font-mono">Scroll</span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            <FiArrowDown className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
-          </motion.div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

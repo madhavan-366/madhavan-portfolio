@@ -1,74 +1,136 @@
-import { motion } from 'framer-motion';
-import { certificates } from '../../data';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { certificates, events } from '../../data';
 import SectionHeader from '../ui/SectionHeader';
-import { staggerContainer, staggerItem, viewportConfig } from '../../utils/animations';
-
-function CertCard({ cert }) {
-  return (
-    <motion.div
-      variants={staggerItem}
-      whileHover={{ y: -5, scale: 1.02 }}
-      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-      className="group relative p-5 rounded-2xl glass border border-black/5 dark:border-white/5 hover:border-indigo-500/25 hover:shadow-lg hover:shadow-indigo-500/10 transition-all flex flex-col h-full"
-    >
-      {/* Gradient top line */}
-      <div className={`absolute top-0 left-5 right-5 h-px bg-gradient-to-r ${cert.color} opacity-0 group-hover:opacity-70 transition-opacity`} />
-
-      {/* Icon */}
-      <motion.div
-        whileHover={{ rotate: 8, scale: 1.1 }}
-        transition={{ duration: 0.25 }}
-        className={`w-11 h-11 rounded-xl bg-gradient-to-br ${cert.color} flex items-center justify-center text-lg mb-4 shadow-lg flex-shrink-0`}
-      >
-        {cert.icon}
-      </motion.div>
-
-      {/* Content */}
-      <h4 className="font-semibold text-slate-900 dark:text-white text-sm leading-tight mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors flex-1">
-        {cert.title}
-      </h4>
-      <p className="text-indigo-500 dark:text-indigo-400 text-xs font-medium mb-4">{cert.issuer}</p>
-
-      {/* View Certificate button */}
-      <motion.a
-        whileHover={{ scale: 1.03 }}
-        whileTap={{ scale: 0.97 }}
-        href={`/certificates/${cert.file}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-auto inline-flex items-center justify-center gap-1.5 w-full py-2 rounded-xl text-xs font-semibold bg-indigo-500/10 border border-indigo-500/20 text-indigo-600 dark:text-indigo-300 hover:bg-indigo-500/20 hover:border-indigo-500/40 transition-all"
-      >
-        <span>📄</span>
-        View Certificate
-      </motion.a>
-    </motion.div>
-  );
-}
+import { staggerContainer, staggerItem } from '../../utils/animations';
+import { FiExternalLink, FiFileText, FiCalendar, FiCheckCircle } from 'react-icons/fi';
 
 export default function Certificates() {
-  return (
-    <section id="certificates" className="relative section-padding overflow-hidden">
-      <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-indigo-600/5 rounded-full blur-3xl" />
+  const [filter, setFilter] = useState('all');
 
-      <div className="max-w-5xl mx-auto">
+  const allItems = [
+    ...certificates.map(c => ({ ...c, type: 'certification', link: `/certificates/${c.file}` })),
+    ...events.map(e => ({
+      ...e,
+      type: 'event',
+      link: e.file ? `/hackathons/${e.file}` : null,
+      skillsCovered: e.description
+    }))
+  ];
+
+  const filteredItems = filter === 'all'
+    ? allItems
+    : filter === 'certifications'
+    ? allItems.filter(i => i.type === 'certification')
+    : allItems.filter(i => i.type === 'event');
+
+  const filterTabs = [
+    { id: 'all', label: `All Credentials (${allItems.length})` },
+    { id: 'certifications', label: `Certifications (${certificates.length})` },
+    { id: 'events', label: `Hackathons & Competitions (${events.length})` }
+  ];
+
+  return (
+    <section id="credentials" className="section-wrapper relative">
+      <div id="certificates" className="absolute -top-20" />
+      <div id="events" className="absolute -top-20" />
+
+      <div className="section-container">
         <SectionHeader
-          eyebrow="Credentials"
-          title="Certificates"
-          subtitle="A compact collection of learning credentials in AI and data analytics."
+          eyebrow="Verified Credentials"
+          title="Certifications & Hackathons"
+          subtitle="Industry certifications, university accreditations, and national hackathon participation records."
         />
 
-        {/* Grid */}
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportConfig}
-          className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 items-stretch"
-        >
-          {certificates.map((cert) => (
-            <CertCard key={cert.id} cert={cert} />
-          ))}
-        </motion.div>
+        {/* Filter Controls */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
+          {filterTabs.map((tab) => {
+            const isActive = filter === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setFilter(tab.id)}
+                className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 ${
+                  isActive
+                    ? 'bg-[var(--accent)] text-[var(--accent-text-on)] shadow-warm-sm'
+                    : 'bg-[var(--bg-card)] text-[var(--text-secondary)] border border-[var(--border-subtle)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-elevated)]'
+                }`}
+              >
+                {tab.label}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Credentials Grid */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={filter}
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
+            {filteredItems.map((item, idx) => (
+              <motion.div
+                key={`${item.title}-${idx}`}
+                variants={staggerItem}
+                className="card-surface rounded-2xl p-6 flex flex-col justify-between border border-[var(--border-subtle)] relative group"
+              >
+                <div>
+                  {/* Card Header */}
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className="badge-subtle text-[11px]">
+                      {item.type === 'certification' ? (item.category || 'Certification') : (item.badge || 'Hackathon')}
+                    </span>
+                    {item.date && (
+                      <span className="flex items-center gap-1 text-[11px] font-mono text-[var(--text-muted)]">
+                        <FiCalendar className="w-3 h-3 text-[var(--accent)]" />
+                        {item.date}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Title & Issuer */}
+                  <h3 className="text-base font-bold text-[var(--text-primary)] font-heading mb-1 group-hover:text-[var(--accent)] transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs font-semibold text-[var(--accent)] mb-3">
+                    {item.issuer || item.organizer}
+                  </p>
+
+                  {/* Description / Competencies */}
+                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed mb-5">
+                    {item.skillsCovered}
+                  </p>
+                </div>
+
+                {/* Footer Link / Verification */}
+                <div className="pt-4 border-t border-[var(--border-subtle)]">
+                  {item.link ? (
+                    <a
+                      href={item.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-between w-full text-xs font-semibold text-[var(--accent)] hover:text-[var(--accent-hover)] py-1 transition-colors group/btn"
+                    >
+                      <span className="flex items-center gap-1.5">
+                        <FiFileText className="w-3.5 h-3.5" />
+                        <span>View Verified Certificate</span>
+                      </span>
+                      <FiExternalLink className="w-3.5 h-3.5 opacity-70 group-hover/btn:opacity-100 group-hover/btn:translate-x-0.5 transition-all" />
+                    </a>
+                  ) : (
+                    <div className="flex items-center gap-1.5 text-xs text-[var(--accent)] font-medium py-1">
+                      <FiCheckCircle className="w-3.5 h-3.5" />
+                      <span>Event Participant</span>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </section>
   );

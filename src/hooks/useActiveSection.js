@@ -1,27 +1,35 @@
 import { useState, useEffect } from 'react';
 
 export function useActiveSection(sectionIds) {
-  const [activeSection, setActiveSection] = useState('home');
+  const [activeSection, setActiveSection] = useState(sectionIds[0] || 'home');
+  const sectionsKey = sectionIds.join(',');
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
+    if (!sectionIds || sectionIds.length === 0) return;
+
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 200;
+
+      for (let i = sectionIds.length - 1; i >= 0; i--) {
+        const id = sectionIds[i];
+        const el = document.getElementById(id);
+        if (el) {
+          const top = el.offsetTop;
+          if (scrollPosition >= top) {
+            setActiveSection(id);
+            return;
           }
-        });
-      },
-      { rootMargin: '-40% 0px -55% 0px', threshold: 0 }
-    );
+        }
+      }
+      setActiveSection(sectionIds[0] || 'home');
+    };
 
-    sectionIds.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
 
-    return () => observer.disconnect();
-  }, [sectionIds]);
+    return () => window.removeEventListener('scroll', handleScroll);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sectionsKey]);
 
   return activeSection;
 }

@@ -1,57 +1,126 @@
 import { motion } from 'framer-motion';
 import SectionHeader from '../ui/SectionHeader';
-import { fadeInUp, viewportConfig } from '../../utils/animations';
+import { fadeInUp, staggerContainer, staggerItem, viewportConfig } from '../../utils/animations';
+import { FiCode, FiCpu, FiDatabase, FiAward } from 'react-icons/fi';
 
-const softSkills = ["Problem Solving", "Analytical Thinking", "Technical Communication", "Team Collaboration", "Data Storytelling"];
+const highlights = [
+  {
+    icon: FiCpu,
+    title: "Applied AI & Machine Learning",
+    description: "Experience with custom CNN vision models (Xception), NLP, and multi-agent workflows using LangGraph & Gemini API."
+  },
+  {
+    icon: FiCode,
+    title: "Full-Stack Web Engineering",
+    description: "Building responsive, modern user interfaces with React.js & Tailwind CSS, backed by REST APIs built with Node.js, Express, and FastAPI."
+  },
+  {
+    icon: FiDatabase,
+    title: "Data Analytics & BI Pipelines",
+    description: "Translating raw multi-currency transactions and operational data into dynamic Power BI dashboards and predictive customer lifetime value models."
+  },
+  {
+    icon: FiAward,
+    title: "Academic & Industry Track Record",
+    description: "8.4 CGPA in B.Tech Artificial Intelligence & Data Science, Best Performer in Data Analyst internship at Elevate Labs, and 6 verified certifications."
+  }
+];
 
-const bioParagraphs = [
-  "I am an AI/ML Engineer and Data Analyst who loves building smart systems with beautiful, easy-to-use interfaces. My hands-on experience spans deep learning, data analytics, and responsive web development. I focus on building tools that are both technically strong and visually clear.",
-  "My toolkit bridges frontend frameworks like React.js with robust AI/ML backends built using Flask and Node.js. I care deeply about writing clean code, designing solid architecture, and making complex AI insights simple for users to understand. My work covers everything from training custom computer vision models to deploying full-stack, AI-powered applications.",
-  "I firmly believe in learning by building. Every project in my portfolio started with a real-world problem I wanted to solve, and I built and shipped each one from start to finish."
+const softSkills = [
+  "Problem Solving",
+  "Analytical Reasoning",
+  "Technical Communication",
+  "Data Storytelling",
+  "Rapid Prototyping",
+  "Team Collaboration"
 ];
 
 export default function About() {
   return (
-    <section id="about" className="relative section-padding overflow-hidden">
-      <div className="absolute top-0 right-0 w-96 h-96 bg-purple-600/5 rounded-full blur-3xl" />
-
-      <div className="max-w-4xl mx-auto">
+    <section id="about" className="section-wrapper relative section-alt">
+      <div className="section-container">
         <SectionHeader
           eyebrow="About Me"
-          title="Who I Am"
-          subtitle="A brief introduction to the person behind the projects."
+          title="Bridging AI Models & Full-Stack Systems"
+          subtitle="A passionate engineering student focused on turning complex algorithms into practical, user-friendly software solutions."
         />
 
-        <motion.div
-          variants={fadeInUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportConfig}
-          className="space-y-6"
-        >
-          {/* Bio paragraphs */}
-          <div className="space-y-5">
-            {bioParagraphs.map((para, i) => (
-              <p key={i} className="text-slate-600 dark:text-slate-400 text-base leading-relaxed">
-                {para}
-              </p>
-            ))}
-          </div>
+        <div className="grid lg:grid-cols-12 gap-8 items-start">
+          
+          {/* Left Narrative Column */}
+          <motion.div
+            variants={fadeInUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportConfig}
+            className="lg:col-span-6 space-y-5"
+          >
+            <div className="card-surface rounded-2xl p-6 sm:p-8 space-y-4">
+              <h3 className="text-xl font-bold text-[var(--text-primary)] font-heading">
+                My Background & Approach
+              </h3>
 
-          {/* Soft skill chips */}
-          <div className="flex flex-wrap gap-2.5 pt-2">
-            {softSkills.map(skill => (
-              <motion.span
-                key={skill}
-                whileHover={{ scale: 1.05, y: -2 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-                className="text-sm px-4 py-2 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-300 border border-indigo-500/20 hover:bg-indigo-500/20 hover:border-indigo-500/40 transition-all cursor-default"
+              <p className="text-[var(--text-secondary)] text-sm sm:text-base leading-relaxed">
+                I am an Artificial Intelligence and Data Science undergraduate at <strong className="text-[var(--text-primary)] font-semibold">Rajalakshmi Institute of Technology</strong>, Chennai. My passion lies at the intersection of applied machine learning, predictive analytics, and modern full-stack web development.
+              </p>
+
+              <p className="text-[var(--text-secondary)] text-sm sm:text-base leading-relaxed">
+                Rather than treating AI models as isolated Jupyter experiments, I focus on building <strong className="text-[var(--text-primary)] font-semibold">end-to-end software applications</strong>. Whether integrating an Xception CNN to highlight manipulated media with an AI explanation chatbot, or building multi-modal travel itineraries with LangGraph and Gemini, I strive to make technology accessible and practical.
+              </p>
+
+              <p className="text-[var(--text-secondary)] text-sm sm:text-base leading-relaxed">
+                During my internship at <strong className="text-[var(--text-primary)] font-semibold">Elevate Labs</strong>, I applied Python and SQL for end-to-end data cleaning and analysis while designing dynamic Power BI dashboards. I am actively seeking software engineering and AI/ML internship or entry-level opportunities where I can contribute and grow.
+              </p>
+
+              {/* Core Attributes */}
+              <div className="pt-3 border-t border-[var(--border-subtle)]">
+                <span className="block text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-2.5">
+                  Professional Attributes
+                </span>
+                <div className="flex flex-wrap gap-2">
+                  {softSkills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="text-xs px-3 py-1.5 rounded-lg bg-[var(--accent-tint)] text-[var(--accent)] border border-[var(--accent-border)] font-medium"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right Highlights Bento Cards */}
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportConfig}
+            className="lg:col-span-6 grid sm:grid-cols-2 gap-4"
+          >
+            {highlights.map((item, idx) => (
+              <motion.div
+                key={idx}
+                variants={staggerItem}
+                className="card-surface rounded-2xl p-5 sm:p-6 flex flex-col justify-between"
               >
-                {skill}
-              </motion.span>
+                <div>
+                  <div className="w-10 h-10 rounded-xl bg-[var(--accent-tint)] border border-[var(--accent-border)] text-[var(--accent)] flex items-center justify-center mb-4">
+                    <item.icon className="w-5 h-5" />
+                  </div>
+                  <h4 className="text-base font-bold text-[var(--text-primary)] font-heading mb-2">
+                    {item.title}
+                  </h4>
+                  <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+              </motion.div>
             ))}
-          </div>
-        </motion.div>
+          </motion.div>
+
+        </div>
       </div>
     </section>
   );

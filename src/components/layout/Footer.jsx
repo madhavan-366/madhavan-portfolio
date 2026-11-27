@@ -1,58 +1,88 @@
-import { motion } from 'framer-motion';
 import { FiGithub, FiLinkedin, FiMail, FiArrowUp, FiInstagram } from 'react-icons/fi';
-import { personalInfo } from '../../data';
+import { personalInfo, navLinks } from '../../data';
 
 export default function Footer() {
   const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
+  const scrollTo = (id) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
   const socials = [
-    { href: personalInfo.github, icon: FiGithub, external: true, label: 'GitHub' },
-    { href: personalInfo.linkedin, icon: FiLinkedin, external: true, label: 'LinkedIn' },
-    { href: `mailto:${personalInfo.email}`, icon: FiMail, external: false, label: 'Email' },
-    { href: personalInfo.instagram, icon: FiInstagram, external: true, label: 'Instagram' },
+    { href: personalInfo.github, icon: FiGithub, label: 'GitHub', external: true },
+    { href: personalInfo.linkedin, icon: FiLinkedin, label: 'LinkedIn', external: true },
+    { href: `mailto:${personalInfo.email}`, icon: FiMail, label: 'Email', external: false },
+    { href: personalInfo.instagram, icon: FiInstagram, label: 'Instagram', external: true },
   ];
 
   return (
-    <footer className="relative border-t border-black/5 dark:border-white/5 py-10 px-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+    <footer className="border-t border-[var(--border-subtle)] py-12 bg-[var(--bg-footer)] text-[var(--text-secondary)] text-xs">
+      <div className="section-container space-y-8">
+        
+        {/* Top Row: Brand & Quick Links */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-6 border-b border-[var(--border-subtle)]">
+          {/* Brand */}
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center text-white font-bold text-sm">
-              M
+            <div className="w-9 h-9 rounded-xl bg-[var(--accent)] flex items-center justify-center text-[var(--accent-text-on)] font-bold text-sm shadow-warm-sm">
+              MK
             </div>
-            <p className="gradient-text font-semibold text-sm">
-              Madhavan K M
-            </p>
+            <div className="text-left">
+              <span className="block font-heading font-bold text-sm text-[var(--text-primary)]">
+                {personalInfo.name}
+              </span>
+              <span className="block text-[11px] text-[var(--text-muted)]">
+                {personalInfo.title}
+              </span>
+            </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          {/* Nav Links */}
+          <div className="flex flex-wrap items-center justify-center gap-4 text-xs">
+            {navLinks.map((link) => (
+              <button
+                key={link.id}
+                onClick={() => scrollTo(link.id)}
+                className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors"
+              >
+                {link.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Back to top */}
+          <button
+            onClick={scrollTop}
+            className="p-2.5 rounded-xl card-surface text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors flex items-center gap-1.5"
+            aria-label="Back to top"
+          >
+            <span>Back to top</span>
+            <FiArrowUp className="w-3.5 h-3.5" />
+          </button>
+        </div>
+
+        {/* Bottom Row: Socials & Copyright */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-[var(--text-muted)] text-center sm:text-left">
+            © {new Date().getFullYear()} {personalInfo.name}. All rights reserved.
+          </p>
+
+          <div className="flex items-center gap-3">
             {socials.map((s) => (
-              <motion.a
+              <a
                 key={s.label}
                 href={s.href}
                 target={s.external ? '_blank' : undefined}
                 rel={s.external ? 'noopener noreferrer' : undefined}
                 aria-label={s.label}
-                whileHover={{ y: -3, scale: 1.08 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-                className="text-slate-500 dark:text-slate-500 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors p-2 rounded-lg hover:bg-indigo-500/10"
+                className="p-2 rounded-lg card-surface text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors"
               >
-                <s.icon className="w-5 h-5" />
-              </motion.a>
+                <s.icon className="w-4 h-4" />
+              </a>
             ))}
-
-            <motion.button
-              onClick={scrollTop}
-              whileHover={{ y: -3 }}
-              whileTap={{ scale: 0.95 }}
-              className="ml-2 p-2.5 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-500 dark:text-indigo-400 hover:bg-indigo-500/20 transition-all"
-              aria-label="Back to top"
-            >
-              <FiArrowUp className="w-4 h-4" />
-            </motion.button>
           </div>
         </div>
+
       </div>
     </footer>
   );

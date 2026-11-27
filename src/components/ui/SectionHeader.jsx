@@ -4,20 +4,25 @@ import { fadeInUp, viewportConfig } from '../../utils/animations';
 export default function SectionHeader({ eyebrow, title, subtitle, centered = true }) {
   return (
     <motion.div
-      className={`mb-16 ${centered ? 'text-center' : ''}`}
+      className={`mb-12 md:mb-16 ${centered ? 'text-center max-w-2xl mx-auto' : 'max-w-2xl'}`}
       variants={fadeInUp}
       initial="hidden"
       whileInView="visible"
       viewport={viewportConfig}
     >
       {eyebrow && (
-        <span className="inline-block text-xs font-semibold tracking-widest uppercase text-indigo-500 dark:text-indigo-400 mb-3 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-500/10">
-          {eyebrow}
-        </span>
+        <div className="mb-3">
+          <span className="badge-subtle">
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]" />
+            {eyebrow}
+          </span>
+        </div>
       )}
-      <h2 className="section-title gradient-text mb-4">{title}</h2>
+      <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[var(--text-primary)]">
+        {title}
+      </h2>
       {subtitle && (
-        <p className={`section-subtitle ${centered ? 'mx-auto' : ''} mt-3 text-slate-500 dark:text-slate-500`}>
+        <p className="mt-4 text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed font-normal">
           {subtitle}
         </p>
       )}

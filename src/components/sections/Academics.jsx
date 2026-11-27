@@ -2,17 +2,16 @@ import { motion } from 'framer-motion';
 import { education } from '../../data';
 import SectionHeader from '../ui/SectionHeader';
 import { staggerContainer, staggerItem, viewportConfig } from '../../utils/animations';
+import { FiBookOpen, FiCalendar, FiMapPin, FiAward, FiCheck } from 'react-icons/fi';
 
 export default function Academics() {
   return (
-    <section id="academics" className="relative section-padding overflow-hidden">
-      <div className="absolute top-0 left-0 w-80 h-80 bg-cyan-600/5 rounded-full blur-3xl" />
-
-      <div className="max-w-6xl mx-auto">
+    <section id="academics" className="section-wrapper relative section-alt">
+      <div className="section-container">
         <SectionHeader
-          eyebrow="Education"
-          title="Academics"
-          subtitle="My academic journey from school to my specialization in Artificial Intelligence and Data Science."
+          eyebrow="Academic Background"
+          title="Education & Coursework"
+          subtitle="Formal academic grounding in Artificial Intelligence, Data Science, and core computer science fundamentals."
         />
 
         <motion.div
@@ -20,44 +19,82 @@ export default function Academics() {
           initial="hidden"
           whileInView="visible"
           viewport={viewportConfig}
-          className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto"
+          className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto"
         >
           {education.map((edu) => (
             <motion.div
               key={edu.id}
               variants={staggerItem}
-              whileHover={{ y: -8, scale: 1.015 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="group relative p-7 rounded-2xl glass border border-black/5 dark:border-white/5 hover:border-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/10 transition-all overflow-hidden"
+              className="card-surface rounded-3xl p-6 sm:p-8 flex flex-col justify-between border border-[var(--border-subtle)] relative overflow-hidden"
             >
-              {/* Top gradient accent */}
-              <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${edu.color} opacity-70 group-hover:opacity-100 transition-opacity`} />
+              <div>
+                {/* Header Badge & Period */}
+                <div className="flex items-center justify-between gap-2 mb-4">
+                  <div className="p-2.5 rounded-xl bg-[var(--accent-tint)] text-[var(--accent)] border border-[var(--accent-border)]">
+                    <FiBookOpen className="w-5 h-5" />
+                  </div>
+                  <div className="flex items-center gap-1.5 text-xs font-mono text-[var(--text-secondary)] bg-[var(--bg-elevated)]/55 border border-[var(--border-subtle)] px-3 py-1 rounded-full">
+                    <FiCalendar className="w-3.5 h-3.5 text-[var(--accent)]" />
+                    <span>{edu.period}</span>
+                  </div>
+                </div>
 
-              {/* Icon */}
-              <motion.div
-                whileHover={{ rotate: 8, scale: 1.1 }}
-                transition={{ duration: 0.3 }}
-                className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${edu.color} flex items-center justify-center text-2xl mb-5 shadow-lg`}
-              >
-                {edu.icon}
-              </motion.div>
+                {/* Degree & Institution */}
+                <h3 className="text-xl font-bold text-[var(--text-primary)] font-heading leading-snug mb-1">
+                  {edu.degree}
+                </h3>
+                <p className="text-sm font-semibold text-[var(--accent)] mb-2">
+                  {edu.institution}
+                </p>
 
-              {/* Content */}
-              <h3 className="font-poppins font-bold text-slate-900 dark:text-white text-base leading-snug mb-2">
-                {edu.degree}
-              </h3>
-              <p className="text-indigo-500 dark:text-indigo-400 font-semibold text-sm mb-1">{edu.institution}</p>
-              <p className="text-slate-500 dark:text-slate-500 text-xs font-mono mb-5">{edu.period}</p>
+                <div className="flex flex-wrap items-center gap-1.5 text-xs text-[var(--text-muted)] mb-5">
+                  <FiMapPin className="w-3.5 h-3.5" />
+                  <span>{edu.location}</span>
+                  <span>·</span>
+                  <span className="text-[var(--accent)] font-medium">{edu.status}</span>
+                </div>
 
-              {/* Score badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-500/10 border border-indigo-500/10">
-                <span className={`text-xl font-black bg-gradient-to-r ${edu.color} bg-clip-text text-transparent`}>
-                  {edu.score}
-                </span>
+                {/* Score Showcase */}
+                <div className="mb-6 p-4 rounded-2xl bg-[var(--accent-tint)] border border-[var(--accent-border)] flex items-center justify-between">
+                  <div>
+                    <span className="block text-[11px] font-mono uppercase text-[var(--text-muted)] font-semibold">
+                      Performance Score
+                    </span>
+                    <span className="text-2xl font-black text-[var(--text-primary)] font-heading">
+                      {edu.score}
+                    </span>
+                  </div>
+                  <div className="text-right">
+                    <span className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-[var(--bg-card)] text-[var(--accent)] border border-[var(--accent-border)]">
+                      <FiAward className="w-3.5 h-3.5" />
+                      {edu.scoreLabel}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Coursework / Focus Areas */}
+                <div className="space-y-2 mb-6">
+                  <span className="block text-xs font-mono uppercase text-[var(--text-muted)] font-semibold tracking-wider">
+                    Core Focus Areas
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {edu.coursework.map((course) => (
+                      <span
+                        key={course}
+                        className="inline-flex items-center gap-1 text-[11px] font-medium px-2.5 py-1 rounded-md bg-[var(--bg-elevated)]/45 text-[var(--text-secondary)] border border-[var(--border-subtle)]"
+                      >
+                        <FiCheck className="w-3 h-3 text-[var(--accent)]" />
+                        {course}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
 
-              {/* Bottom glow on hover */}
-              <div className={`absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t ${edu.color} opacity-0 group-hover:opacity-5 transition-opacity pointer-events-none`} />
+              {/* Highlights Note */}
+              <p className="text-xs text-[var(--text-muted)] pt-4 border-t border-[var(--border-subtle)] leading-relaxed">
+                {edu.highlights}
+              </p>
             </motion.div>
           ))}
         </motion.div>

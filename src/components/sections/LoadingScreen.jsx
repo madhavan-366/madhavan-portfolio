@@ -20,7 +20,7 @@ function GradientOrb() {
         transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
         className="absolute inset-0 rounded-full"
         style={{
-          background: 'conic-gradient(from 0deg, transparent 70%, #6366f1, #8b5cf6, #06b6d4, transparent)',
+          background: 'conic-gradient(from 0deg, transparent 70%, #C49A6C, #D4AD83, #8F6339, transparent)',
         }}
       />
       {/* Inner ring counter-spin */}
@@ -29,21 +29,21 @@ function GradientOrb() {
         transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
         className="absolute inset-2 rounded-full"
         style={{
-          background: 'conic-gradient(from 180deg, transparent 60%, #06b6d4, #6366f1, transparent)',
+          background: 'conic-gradient(from 180deg, transparent 60%, #D4AD83, #C49A6C, transparent)',
         }}
       />
-      {/* Core glow */}
+      {/* Core surface */}
       <motion.div
-        animate={{ scale: [0.9, 1.1, 0.9], opacity: [0.7, 1, 0.7] }}
+        animate={{ scale: [0.94, 1.06, 0.94], opacity: [0.75, 1, 0.75] }}
         transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute inset-4 rounded-full bg-gradient-to-br from-indigo-600 via-purple-600 to-cyan-500 blur-sm"
+        className="absolute inset-4 rounded-full bg-gradient-to-br from-[#C49A6C] to-[#8F6339] blur-sm"
       />
-      <div className="absolute inset-5 rounded-full bg-gradient-to-br from-indigo-500 via-purple-500 to-cyan-400" />
+      <div className="absolute inset-5 rounded-full bg-gradient-to-br from-[#D4AD83] to-[#C49A6C]" />
       {/* Center dot */}
       <motion.div
-        animate={{ scale: [1, 1.3, 1] }}
+        animate={{ scale: [1, 1.25, 1] }}
         transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-        className="relative z-10 w-3 h-3 rounded-full bg-white shadow-lg"
+        className="relative z-10 w-3 h-3 rounded-full bg-[#F3EBDD] shadow-warm-sm"
       />
     </div>
   );
@@ -86,19 +86,19 @@ export default function LoadingScreen({ onComplete }) {
         <motion.div
           exit={{ opacity: 0, scale: 1.04 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#050816]"
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#1B1714]"
         >
           {/* Ambient glow */}
           <div className="absolute inset-0 overflow-hidden">
             <motion.div
-              animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.25, 0.15] }}
+              animate={{ scale: [1, 1.15, 1], opacity: [0.1, 0.18, 0.1] }}
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-indigo-600/20 rounded-full blur-3xl"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#C49A6C]/15 rounded-full blur-3xl"
             />
             <motion.div
-              animate={{ scale: [1.2, 1, 1.2], opacity: [0.1, 0.2, 0.1] }}
+              animate={{ scale: [1.15, 1, 1.15], opacity: [0.1, 0.18, 0.1] }}
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-purple-600/20 rounded-full blur-3xl"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-[#40332A]/35 rounded-full blur-3xl"
             />
           </div>
 
@@ -121,8 +121,8 @@ export default function LoadingScreen({ onComplete }) {
                 transition={{ duration: 0.3 }}
                 className={`font-mono text-sm tracking-widest ${
                   step === loadingSteps.length - 1
-                    ? 'gradient-text font-bold text-base'
-                    : 'text-slate-400'
+                    ? 'text-gradient-primary font-bold text-base'
+                    : 'text-[#C8BBA9]'
                 }`}
               >
                 {loadingSteps[step]?.text}
@@ -131,16 +131,16 @@ export default function LoadingScreen({ onComplete }) {
 
             {/* Progress bar */}
             <div className="w-full space-y-2">
-              <div className="w-full h-px bg-white/5 rounded-full overflow-hidden">
+              <div className="w-full h-px bg-[#F3EBDD]/10 rounded-full overflow-hidden">
                 <motion.div
-                  className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500 rounded-full"
+                  className="h-full bg-gradient-to-r from-[#C49A6C] to-[#D4AD83] rounded-full"
                   style={{ width: `${progress}%` }}
                   transition={{ duration: 0.15 }}
                 />
               </div>
               <div className="flex justify-between">
-                <span className="text-xs text-slate-700 font-mono">madhavankm.dev</span>
-                <span className="text-xs text-indigo-400 font-mono">{progress}%</span>
+                <span className="text-xs text-[#A39584] font-mono">madhavankm.dev</span>
+                <span className="text-xs text-[#C49A6C] font-mono">{progress}%</span>
               </div>
             </div>
           </div>

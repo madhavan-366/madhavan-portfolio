@@ -36,11 +36,11 @@ export default function ParticleBackground() {
         this.size = Math.random() * 2 + 0.5;
         this.speedX = (Math.random() - 0.5) * 0.4;
         this.speedY = (Math.random() - 0.5) * 0.4;
-        this.opacity = Math.random() * 0.5 + 0.1;
+        this.opacity = Math.random() * 0.45 + 0.1;
         const colors = [
-          'rgba(99, 102, 241,',
-          'rgba(139, 92, 246,',
-          'rgba(6, 182, 212,',
+          'rgba(196, 154, 108,',
+          'rgba(212, 173, 131,',
+          'rgba(243, 235, 221,',
         ];
         this.color = colors[Math.floor(Math.random() * colors.length)];
       }
@@ -74,9 +74,9 @@ export default function ParticleBackground() {
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < maxDist) {
-            const opacity = (1 - dist / maxDist) * 0.15;
+            const opacity = (1 - dist / maxDist) * 0.14;
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(99, 102, 241, ${opacity})`;
+            ctx.strokeStyle = `rgba(196, 154, 108, ${opacity})`;
             ctx.lineWidth = 0.5;
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
@@ -105,7 +105,7 @@ export default function ParticleBackground() {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none z-0"
-      style={{ opacity: 0.6 }}
+      style={{ opacity: 0.55 }}
     />
   );
 }

@@ -22,14 +22,14 @@ export default function CustomCursor() {
         if (ringRef.current) {
           ringRef.current.style.width = '60px';
           ringRef.current.style.height = '60px';
-          ringRef.current.style.borderColor = 'rgba(139, 92, 246, 0.6)';
+          ringRef.current.style.borderColor = 'rgba(212, 173, 131, 0.65)';
         }
         if (cursorRef.current) cursorRef.current.style.transform = 'scale(1.5)';
       } else {
         if (ringRef.current) {
           ringRef.current.style.width = '40px';
           ringRef.current.style.height = '40px';
-          ringRef.current.style.borderColor = 'rgba(99, 102, 241, 0.4)';
+          ringRef.current.style.borderColor = 'rgba(196, 154, 108, 0.45)';
         }
         if (cursorRef.current) cursorRef.current.style.transform = 'scale(1)';
       }
